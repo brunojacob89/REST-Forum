@@ -2,6 +2,8 @@ package br.com.alura.forum.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.alura.forum.modelo.Topico;
@@ -9,7 +11,8 @@ import br.com.alura.forum.modelo.Topico;
 public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
 	//JPA Mapeia o relacionamento de topico com curso, buscando o atributo nome de Curso
-	List<Topico> findByCursoNome(String nomeCurso);
+	//List<Topico> findByCursoNome(String nomeCurso);
+	Page<Topico> findByCursoNome(String nomeCurso, Pageable paginacao);
 	
 	//Se caso tenha em topico o atributo com o mesmo nome da entidade e o nome colocamos _ entre a entidades
 	//List<Topico> findByCurso_Nome(String nomeCurso);
