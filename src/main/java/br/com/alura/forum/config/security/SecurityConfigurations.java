@@ -22,11 +22,11 @@ import br.com.alura.forum.repository.UsuarioRepository;
 @Configuration
 public class SecurityConfigurations {
 
-    @Autowired
-    private AutenticacaoService autenticacaoService;
+  //  @Autowired
+  // AutenticacaoService autenticacaoService;
 
-//    @Autowired
-//    private TokenService tokenService;
+    @Autowired
+    private TokenService tokenService;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -36,10 +36,10 @@ public class SecurityConfigurations {
         return authenticationConfiguration.getAuthenticationManager();
     }
     
-    @Autowired
-	 public void configure(AuthenticationManagerBuilder auth) throws Exception{
-    	auth.userDetailsService(autenticacaoService).passwordEncoder(new BCryptPasswordEncoder());
-    }
+//    @Autowired
+//	 public void configure(AuthenticationManagerBuilder auth) throws Exception{
+//    	auth.userDetailsService(autenticacaoService).passwordEncoder(new BCryptPasswordEncoder());
+//    }
 
     @Bean
     public PasswordEncoder encoder() {
@@ -55,8 +55,8 @@ public class SecurityConfigurations {
         .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
         .anyRequest().authenticated()
         .and().csrf().disable()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().formLogin().defaultSuccessUrl("/topicos");
-      //  .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
    
         return http.build();
     }
